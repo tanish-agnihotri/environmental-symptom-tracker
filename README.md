@@ -8,7 +8,7 @@ I experience unusual morning brain fog and localized headaches that neurology ap
 ## How It Works
 This is a Java command-line tool where the user can log their daily symptoms (Yes/No) each morning. The program automatically pings the Open-Meteo API to pull the current barometric pressure, temperature, and humidity, saving the combined data to a local '.csv' file. The user can also run an "Analyze" command to calculate correlations between their currently logged historical symptoms and specific weather or pressure patterns.
 
-![System Diagram](docs/Flowchart.png) 
+![System Diagram](System_Diagram.png) 
 
 ## Tech Stack
 - **Language:** Java
