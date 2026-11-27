@@ -2,6 +2,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.LocalDate;
 
 void main() {
     boolean running = true;
@@ -66,11 +69,14 @@ void logData() {
         String humidityStr = extractJsonValue(json, "\"relative_humidity_2m\":");
         String pressureStr = extractJsonValue(json, "\"surface_pressure\":");
 
-        
-        IO.println("Current Conditions -> Temp: " + tempStr + "C | Humidity: " + humidityStr + "% | Pressure: " + pressureStr + " hPa");
+        String date = LocalDate.now().toString();
+        String csvLine = date + "," + symptom + "," + pressureStr + "," + tempStr + "," + humidityStr + "\n";
+
+        Files.writeString(Path.of("symptoms_log.csv"), csvLine);
+        IO.println("Success! Data saved to symptoms_log.csv.");
 
     } catch (Exception e) {
-        IO.println("Error connecting to the weather API. Please check your internet connection.");
+        IO.println("Error saving data. Make sure you have internet and file permissions.");
     }
 }
 
