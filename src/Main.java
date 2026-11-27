@@ -1,3 +1,8 @@
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
 void main() {
     boolean running = true;
 
@@ -16,7 +21,7 @@ void main() {
         try {
             choice = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            //
+            // 
         }
 
         if (choice == 1) {
@@ -54,10 +59,28 @@ void logData() {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        // prints the raw JSON to make sure API works
-         IO.println("Raw API Response: " + response.body());
+        String json = response.body();
+
+        // Extracts the values for temperature, humidity, and pressure from the JSON
+        String tempStr = extractJsonValue(json, "\"temperature_2m\":");
+        String humidityStr = extractJsonValue(json, "\"relative_humidity_2m\":");
+        String pressureStr = extractJsonValue(json, "\"surface_pressure\":");
+
+        
+        IO.println("Current Conditions -> Temp: " + tempStr + "C | Humidity: " + humidityStr + "% | Pressure: " + pressureStr + " hPa");
 
     } catch (Exception e) {
         IO.println("Error connecting to the weather API. Please check your internet connection.");
     }
+}
+
+String extractJsonValue(String json, String key) {
+    int keyIndex = json.indexOf(key);
+    if (keyIndex == -1) return "0";
+    
+    int startIndex = keyIndex + key.length();
+    int endIndex = json.indexOf(",", startIndex);
+    if (endIndex == -1) endIndex = json.indexOf("}", startIndex); // If it's the last item
+    
+    return json.substring(startIndex, endIndex).trim();
 }
