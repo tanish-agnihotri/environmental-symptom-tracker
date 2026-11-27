@@ -14,7 +14,7 @@ void main() {
         int choice = Integer.parseInt(input);
 
         if (choice == 1) {
-            IO.println("Logging data... (coming soon)");
+            logData();
         } else if (choice == 2) {
             IO.println("Analyzing data... (coming soon)");
         } else if (choice == 3) {
@@ -29,6 +29,6 @@ void main() {
 void logData() {
     String symptom = IO.readln("Did you experience brain fog or a headache today? (Y/N): ");
     
-    // Debug print to see what they typed
+    // print to see what they typed
     IO.println("You entered: " + symptom);
 }
