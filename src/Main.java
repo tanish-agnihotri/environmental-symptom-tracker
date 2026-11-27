@@ -25,3 +25,10 @@ void main() {
         }
     }
 }
+
+void logData() {
+    String symptom = IO.readln("Did you experience brain fog or a headache today? (Y/N): ");
+    
+    // Debug print to see what they typed
+    IO.println("You entered: " + symptom);
+}
