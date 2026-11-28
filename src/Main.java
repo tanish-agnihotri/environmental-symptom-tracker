@@ -4,6 +4,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 
 void main() {
@@ -71,8 +72,14 @@ void logData() {
 
         String date = LocalDate.now().toString();
         String csvLine = date + "," + symptom + "," + pressureStr + "," + tempStr + "," + humidityStr + "\n";
+        Path filePath = Path.of("symptoms_log.csv");
 
-        Files.writeString(Path.of("symptoms_log.csv"), csvLine);
+        // adds a header to the CSV file if the CSV doesn't exist yet
+        if (!Files.exists(filePath)) {
+            Files.writeString(filePath, "Date,Symptom,Pressure,Temp,Humidity\n");
+        }
+
+        Files.writeString(filePath, csvLine, StandardOpenOption.APPEND);
         IO.println("Success! Data saved to symptoms_log.csv.");
 
     } catch (Exception e) {
